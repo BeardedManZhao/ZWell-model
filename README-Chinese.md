@@ -1,4 +1,4 @@
-# ![image](https://github.com/BeardedManZhao/ZWell-model/assets/113756063/b84b221c-aeba-4085-924a-ea8edfe495c7) ZWell-model
+# ![image](https://github.com/BeardedManZhao/ZWell-model/assets/113756063/87aedd4f-092f-4ff7-9e4a-3749cffedf0d) ZWell-model
 
 # 介绍
 
