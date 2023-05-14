@@ -13,7 +13,7 @@ class ConvNetV2(ConvNet):
         from keras import Sequential
         from keras.applications.densenet import layers
         init_filters = self.init_k_len
-        model = Sequential()
+        model = Sequential(name=args.get('name', 'ConvNetV2'))
         # 卷积
         model.add(
             layers.Conv2D(init_filters, (3, 3), activation='relu', input_shape=self.input_shape)

@@ -52,3 +52,17 @@ class ConvNet(AllModel):
         other.ckp = self.ckp
         other.init_k_len = self.init_k_len
         other.dense_len = self.dense_len
+
+    def __str__(self) -> str:
+        """
+        :return:当前类的结构信息
+        """
+        return f"zWell_model.convNet.convNetWork.ConvNet(\n" \
+               f"\tstride={self.stride}, \n" \
+               f"\tinput_shape{self.input_shape}, \n" \
+               f"\tclasses={self.classes}\n" \
+               f"\tmodel_layers_num={self.model_layers_num}, \n" \
+               f"\tckp={self.ckp}, \n" \
+               f"\tinit_k_len={self.init_k_len}, \n" \
+               f"\tdense_len={self.dense_len}\n" \
+               f")"

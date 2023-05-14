@@ -1,8 +1,28 @@
 # ![image](https://github.com/BeardedManZhao/ZWell-model/assets/113756063/b84b221c-aeba-4085-924a-ea8edfe495c7) ZWell-model
 
+# introduce
+
 A deep learning model library that supports various deep network models and transformations to libraries such as Keras.
 With this tool, it is easy to construct neural network objects that can be used for any API, saving additional API
 learning time.
+
+## Acquisition method
+
+通过 pip 工具进行库的安装，也可以通过GitHub中的源码手动装载。
+
+```shell
+pip install zWell-model
+```
+
+## Current developments
+
+这里展示的是当前 zWell-model 支持的深度学习模型，以及其支持接入的第三方库等更详细的情况。
+
+| Neural Network Name                   | by reference               | Support access to keras |
+|---------------------------------------|----------------------------|-------------------------|
+| Basic Convolutional First Edition     | zModel.conv_net1.ConvNetV1 | yes                     |
+| Basic Convolutional Second Edition    | zModel.conv_net2.ConvNetV2 | yes                     |
+| Residual Neural Network First Edition | zModel.res_net1.ResNetV1   | yes                     |
 
 # Usage examples
 
@@ -117,7 +137,7 @@ You can obtain the general object of the residual neural network object from ZWe
 import zWell_model
 
 # Obtaining residual neural network
-resNet = zWell_model.res_net.ResNet(
+resNet = zWell_model.res_net1.ResNetV1(
     # Specify the number of residual blocks as 4 TODO defaults to 4
     model_layers_num=4,
     # Specify the number of output channels in the four residual blocks
@@ -149,7 +169,7 @@ import zWell_model
 x_train, x_test = x_train.astype(np.float32) / 255., x_test.astype(np.float32) / 255.
 
 # Obtaining residual neural network
-resNet = zWell_model.res_net.ResNet(
+resNet = zWell_model.res_net1.ResNetV1(
     # Specify the number of residual blocks as 4 TODO defaults to 4
     model_layers_num=4,
     # Specify the number of output channels in the four residual blocks

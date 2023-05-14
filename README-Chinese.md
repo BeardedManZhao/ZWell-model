@@ -1,6 +1,26 @@
 # ![image](https://github.com/BeardedManZhao/ZWell-model/assets/113756063/b84b221c-aeba-4085-924a-ea8edfe495c7) ZWell-model
 
+# 介绍
+
 深度学习模型库，其支持各种深度网络模型，支持向keras等库进行转换，通过此工具能够轻松的构建出能用于任何API的神经网络对象，节省额外的API学习时间。
+
+## 获取方式
+
+通过 pip 工具进行库的安装，也可以通过GitHub中的源码手动装载。
+
+```shell
+pip install zWell-model
+```
+
+## 当前发展
+
+这里展示的是当前 zWell-model 支持的深度学习模型，以及其支持接入的第三方库等更详细的情况。
+
+| 神经网络名称    | 引用方式                       | 支持接入keras |
+|-----------|----------------------------|-----------|
+| 基本卷积第一版   | zModel.conv_net1.ConvNetV1 | yes       |
+| 基本卷积第二版   | zModel.conv_net2.ConvNetV2 | yes       |
+| 残差神经网络第一版 | zModel.res_net1.ResNetV1   | yes       |
 
 # 使用示例
 
@@ -73,8 +93,6 @@ x_test = x_test.astype(np.float32).reshape(-1, 32, 32, 3) / 255.
 resNet = zWell_model.conv_net2.ConvNetV2(
     # 指定卷积层数量为 4 TODO 默认为4
     model_layers_num=4,
-    # 指定四个残差块中的输出通道数量
-    k=[12, 12, 12, 12],
     # 指定四个卷积层中的步长
     stride=[1, 2, 1, 2],
     # 指定卷积神经网络的输入维度
@@ -114,7 +132,7 @@ model.fit(
 import zWell_model
 
 # 获取到残差神经网络
-resNet = zWell_model.res_net.ResNet(
+resNet = zWell_model.res_net1.ResNetV1(
     # 指定残差块数量为 4 TODO 默认为4
     model_layers_num=4,
     # 指定四个残差块中的输出通道数量
@@ -145,17 +163,21 @@ import zWell_model
 x_train = x_train.astype(np.float32).reshape(-1, 32, 32, 3) / 255.
 x_test = x_test.astype(np.float32).reshape(-1, 32, 32, 3) / 255.
 
-# 获取到第二种卷积神经网络
-resNet = zWell_model.conv_net2.ConvNetV2(
-    # 指定基础架构之上要额外增加的卷积层数量为 1 TODO 默认为4
-    model_layers_num=1,
-    # 指定2个卷积层中的步长
-    stride=[1],
-    # 指定卷积神经网络的输入维度
+# 获取到残差神经网络
+resNet = zWell_model.res_net1.ResNetV1(
+    # 指定残差块数量为 4 TODO 默认为4
+    model_layers_num=4,
+    # 指定四个残差块中的输出通道数量
+    k=[12, 12, 12, 12],
+    # 指定四个残差块中的步长
+    stride=[1, 2, 1, 2],
+    # 指定残差神经网络的输入维度
     input_shape=(32, 32, 3),
     # 指定分类数量
     classes=10
 )
+
+print(resNet)
 
 # 转换到 keras 的网络模型
 model = resNet.to_keras_model()

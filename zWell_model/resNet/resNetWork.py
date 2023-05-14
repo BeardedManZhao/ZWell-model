@@ -6,7 +6,6 @@
 # @Project : Keras-model
 import copy
 
-import zWell_model.resNet.utils as ru
 import zWell_model.utils as zu
 from zWell_model.allModel import AllModel
 
@@ -60,37 +59,12 @@ class ResNet(AllModel):
         self.dense_len = dense_len
 
     def to_keras_model(self, **args):
-        from keras import Input, Model
-        from keras.layers import AveragePooling2D, Flatten, Dropout, Dense
-        """定义残差网络"""
-        inputs = Input(shape=self.input_shape)
-        # 开始进行残差块之前进行一层卷积 然后开始进行残差块计算
-        x = ru.res_module(inputs, k=self.init_k_len, stride=self.stride[0], chan_dim=self.chan_dim, red=self.red)
-        # 准备进入其它残差块
-        k_size = self.init_k_len
-        if self.ckp == 2:
-            k_size <<= 1
-            for index in range(1, self.model_layers_num):
-                x = ru.res_module(
-                    x, k=k_size, stride=self.stride[index], chan_dim=self.chan_dim, red=self.red
-                )
-        else:
-            k_size *= self.ckp
-            for index in range(1, self.model_layers_num):
-                x = ru.res_module(
-                    x, k=k_size, stride=self.stride[index], chan_dim=self.chan_dim, red=self.red
-                )
-        # 均值池化
-        x = AveragePooling2D()(x)
-        # 扁平化
-        x = Flatten()(x)
-        # 失活
-        x = Dropout(0.5)(x)
-        # 全连接
-        x = Dense(self.dense_len, activation='relu')(x)
-        outputs = Dense(self.classes, activation='softmax')(x)
-        model = Model(inputs=inputs, outputs=outputs)
-        return model
+        """
+        将当前神经网络模型对象转换成为 keras 中的模型对象
+        :param args: 需要使用到的参数
+        :return: 转换之后的 keras 模型对象
+        """
+        pass
 
     def __rshift__(self, other):
         """
@@ -112,3 +86,20 @@ class ResNet(AllModel):
         other.ckp = self.ckp
         other.init_k_len = self.init_k_len
         other.dense_len = self.dense_len
+
+    def __str__(self) -> str:
+        return "zWell_model.resNet.resNetWork.ResNet(\n" \
+               f"\tk={self.k}\n" \
+               f"\tstride={self.stride}\n" \
+               f"\tinput_shape={self.input_shape}\n" \
+               f"\tclasses={self.classes}\n" \
+               f"\tchan_dim={self.chan_dim}\n" \
+               f"\tred={self.red}\n" \
+               f"\treg={self.reg}\n" \
+               f"\tbn_eps={self.bn_eps}\n" \
+               f"\tbn_mom={self.bn_mom}\n" \
+               f"\tmodel_layers_num={self.model_layers_num}\n" \
+               f"\tckp={self.ckp}\n" \
+               f"\tinit_k_len={self.init_k_len}\n" \
+               f"\tdense_len={self.dense_len}\n" \
+               ")"

@@ -1,9 +1,4 @@
 # -*- coding:utf-8 -*-
-from keras.layers import BatchNormalization, add, AveragePooling2D
-from keras.layers.convolutional import Conv2D
-from keras.layers.core import Activation
-from keras.regularizers import l2
-
 
 def res_module(
         data, k, stride, chan_dim,
@@ -21,6 +16,10 @@ def res_module(
     :param bn_mom: 定义批量归一化操作时的动态均值的动量
     :return: 残差块的输出
     """
+    from keras.layers import BatchNormalization, add, AveragePooling2D
+    from keras.layers.convolutional import Conv2D
+    from keras.layers.core import Activation
+    from keras.regularizers import l2
     # 将残差计算需要的恒等数值获取到，这里是将输入数据作为恒等数值
     shortcut = data
     # 残差块中的第一层卷积 1x1 包含 归一化 激活 卷积

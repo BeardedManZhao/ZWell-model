@@ -16,7 +16,7 @@ class ConvNetV1(ConvNet):
         from keras import Sequential
         from keras.layers import Convolution2D, Activation, MaxPooling2D, Flatten, Dense
         init_filters = self.init_k_len
-        model = Sequential()
+        model = Sequential(name=args.get('name', 'ConvNetV1'))
         # 添加第一层神经元 这里第一层是卷积
         model.add(
             Convolution2D(
