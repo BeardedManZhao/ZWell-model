@@ -4,7 +4,7 @@
 # @Email : liming7887@qq.com
 # @File : resNetWork.py
 # @Project : Keras-model
-
+import copy
 
 import zWell_model.resNet.utils as ru
 import zWell_model.utils as zu
@@ -12,6 +12,9 @@ from zWell_model.allModel import AllModel
 
 
 class ResNet(AllModel):
+    """
+    残差神经网络最基础的架构对象。
+    """
 
     def __init__(self, k, stride, input_shape, classes,
                  chan_dim=-1, red=True,
@@ -88,3 +91,24 @@ class ResNet(AllModel):
         outputs = Dense(self.classes, activation='softmax')(x)
         model = Model(inputs=inputs, outputs=outputs)
         return model
+
+    def __rshift__(self, other):
+        """
+        使用拷贝的方式将当亲残差网络模型中的所有属性拷贝到另一个残差网络模型对象中，常用于不同配置的网络之间的属性覆写操作。
+        能够在不重新创建新神经网络对象的前提下复制神经网络对象
+        :param other: 拷贝之后的新神经网络模型。
+        :return: 拷贝之后的新神经网络模型。
+        """
+        other.k = copy.copy(self.k)
+        other.stride = copy.copy(self.stride)
+        other.input_shape = self.input_shape
+        other.classes = self.classes
+        other.chan_dim = self.chan_dim
+        other.red = self.red
+        other.reg = self.reg
+        other.bn_eps = self.bn_eps
+        other.bn_mom = self.bn_mom
+        other.model_layers_num = other.model_layers_num
+        other.ckp = self.ckp
+        other.init_k_len = self.init_k_len
+        other.dense_len = self.dense_len
