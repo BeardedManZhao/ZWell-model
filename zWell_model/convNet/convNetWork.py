@@ -36,14 +36,6 @@ class ConvNet(AllModel):
         self.init_k_len = init_k_len
         self.dense_len = dense_len
 
-    def to_keras_model(self, **args):
-        """
-        将卷积神经网络转换成为Keras中能够支持的模型
-        :param args: 参数列表
-        :return: keras 中的神经网络模型
-        """
-        pass
-
     def __rshift__(self, other):
         other.stride = self.stride
         other.input_shape = self.input_shape

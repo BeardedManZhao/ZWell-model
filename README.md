@@ -18,11 +18,12 @@ pip install zWell-model
 
 这里展示的是当前 zWell-model 支持的深度学习模型，以及其支持接入的第三方库等更详细的情况。
 
-| Neural Network Name                   | by reference               | Support access to keras |
-|---------------------------------------|----------------------------|-------------------------|
-| Basic Convolutional First Edition     | zModel.conv_net1.ConvNetV1 | yes                     |
-| Basic Convolutional Second Edition    | zModel.conv_net2.ConvNetV2 | yes                     |
-| Residual Neural Network First Edition | zModel.res_net1.ResNetV1   | yes                     |
+| Neural Network Name                   | by reference                      | Support access to keras | Supported version |
+|---------------------------------------|-----------------------------------|-------------------------|-------------------|
+| Basic Convolutional First Edition     | zModel.conv_net1.ConvNetV1        | yes                     | v0.0.1.20230514   |
+| Basic Convolutional Second Edition    | zModel.conv_net2.ConvNetV2        | yes                     | v0.0.1.20230514   |
+| Residual Neural Network First Edition | zModel.res_net1.ResNetV1          | yes                     | v0.0.1.20230514   |
+| Dense Neural Network First Edition    | zWell_model.dense_net1.DenseNetV1 | yes                     | v0.0.2.2023xxxx   |
 
 # Usage examples
 
@@ -181,6 +182,77 @@ resNet = zWell_model.res_net1.ResNetV1(
     # Specify classification quantity
     classes=10
 )
+
+# Converting to the network model of Keras
+model = resNet.to_keras_model()
+model.summary()
+
+# Start building the model
+model.compile(
+    loss='sparse_categorical_crossentropy',
+    optimizer=Adam(learning_rate=0.001),
+    metrics=['acc']
+)
+
+# Start training the model
+model.fit(
+    x=x_train, y=y_train,
+    validation_data=(x_test, y_test),
+    batch_size=32, epochs=30,
+    callbacks=[PlotLossesKeras()],
+    verbose=1
+)
+```
+
+## 稠密神经网络
+
+You can obtain dense neural network models from the ZWell mode library in the following way.
+
+```python
+import zWell_model
+
+# Obtaining dense neural networks
+resNet = zWell_model.dense_net1.DenseNetV1(
+    # Specify the number of dense blocks as 3 TODO defaults to 4
+    model_layers_num=3,
+    # Specify the convolution step size in the transition layer after 2 dense blocks
+    stride=[1, 1, 1],
+    # Specify the input dimension of a dense neural network
+    input_shape=(32, 32, 3),
+    #     # Specify classification quantity
+    classes=10
+)
+```
+
+将获取到的稠密神经网络对象转换成为 keras 库中的深度神经网络对象。
+
+```python
+# This is an example Python script.
+import numpy as np
+from keras.datasets import cifar10
+from keras.optimizers import Adam
+from livelossplot import PlotLossesKeras
+
+import zWell_model
+
+# Obtaining a dataset
+(x_train, y_train), (x_test, y_test) = cifar10.load_data()
+# data standardization
+x_train, x_test = x_train.astype(np.float32) / 255., x_test.astype(np.float32) / 255.
+
+# Obtaining dense neural networks
+resNet = zWell_model.dense_net1.DenseNetV1(
+    # Specify the number of dense blocks as 3 TODO defaults to 4
+    model_layers_num=3,
+    # Specify the convolution step size in the transition layer after 2 dense blocks
+    stride=[1, 1, 1],
+    # Specify the input dimension of a dense neural network
+    input_shape=(32, 32, 3),
+    #     # Specify classification quantity
+    classes=10
+)
+
+print(resNet)
 
 # Converting to the network model of Keras
 model = resNet.to_keras_model()

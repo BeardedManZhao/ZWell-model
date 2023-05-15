@@ -12,7 +12,7 @@ class ConvNetV1(ConvNet):
     第一种基本的卷积神经网络模型
     """
 
-    def to_keras_model(self, **args):
+    def to_keras_model(self, add_fully_connected=True, **args):
         from keras import Sequential
         from keras.layers import Convolution2D, Activation, MaxPooling2D, Flatten, Dense
         init_filters = self.init_k_len
@@ -64,14 +64,15 @@ class ConvNetV1(ConvNet):
                 # 添加一层池化
                 model.add(MaxPooling2D(pool_size=2, padding='same'))
 
-        # 将矩阵扁平化准备全连接
-        model.add(Flatten())
-        # 正式进入全连接神经网络，添加全连接神经元(具有1024个神经元的层)
-        model.add(Dense(self.dense_len))
-        # 添加激活函数
-        model.add(Activation("relu"))
-        # 再一次添加一层 8 个神经元的网络层(每个神经元代表一个类别)
-        model.add(Dense(self.classes))
-        # 添加激活函数 softmax 用于计算概率得分
-        model.add(Activation("softmax"))
+        if add_fully_connected:
+            # 将矩阵扁平化准备全连接
+            model.add(Flatten())
+            # 正式进入全连接神经网络，添加全连接神经元(具有1024个神经元的层)
+            model.add(Dense(self.dense_len))
+            # 添加激活函数
+            model.add(Activation("relu"))
+            # 再一次添加一层 8 个神经元的网络层(每个神经元代表一个类别)
+            model.add(Dense(self.classes))
+            # 添加激活函数 softmax 用于计算概率得分
+            model.add(Activation("softmax"))
         return model

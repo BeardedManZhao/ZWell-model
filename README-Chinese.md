@@ -16,11 +16,12 @@ pip install zWell-model
 
 这里展示的是当前 zWell-model 支持的深度学习模型，以及其支持接入的第三方库等更详细的情况。
 
-| 神经网络名称    | 引用方式                       | 支持接入keras |
-|-----------|----------------------------|-----------|
-| 基本卷积第一版   | zModel.conv_net1.ConvNetV1 | yes       |
-| 基本卷积第二版   | zModel.conv_net2.ConvNetV2 | yes       |
-| 残差神经网络第一版 | zModel.res_net1.ResNetV1   | yes       |
+| 神经网络名称    | 引用方式                              | 支持接入keras | 支持版本            |
+|-----------|-----------------------------------|-----------|-----------------|
+| 基本卷积第一版   | zModel.conv_net1.ConvNetV1        | yes       | v0.0.1.20230514 |
+| 基本卷积第二版   | zModel.conv_net2.ConvNetV2        | yes       | v0.0.1.20230514 |
+| 残差神经网络第一版 | zModel.res_net1.ResNetV1          | yes       | v0.0.1.20230514 |
+| 稠密神经网络第一版 | zWell_model.dense_net1.DenseNetV1 | yes       | v0.0.2.2023xxxx |
 
 # 使用示例
 
@@ -197,6 +198,78 @@ model.fit(
     # 30批模型训练 每次梯度下降使用 32 个样本
     batch_size=32, epochs=6,
     # 使用回调函数实时打印模型情况
+    callbacks=[PlotLossesKeras()],
+    verbose=1
+)
+```
+
+## 稠密神经网络
+
+您可以通过下面的方式从 ZWell-mode 库中获取到稠密神经网络模型。
+
+```python
+import zWell_model
+
+# 获取到稠密神经网络
+resNet = zWell_model.dense_net1.DenseNetV1(
+    # 指定稠密块数量为 3 TODO 默认为4
+    model_layers_num=3,
+    # 指定 2 个稠密块后的过渡层中的卷积步长
+    stride=[1, 1, 1],
+    # 指定稠密神经网络的输入维度
+    input_shape=(32, 32, 3),
+    # 指定分类数量
+    classes=10
+)
+```
+
+将获取到的稠密神经网络对象转换成为 keras 库中的深度神经网络对象。
+
+```python
+# 这是一个示例 Python 脚本。
+import numpy as np
+from keras.datasets import cifar10
+from keras.optimizers import Adam
+from livelossplot import PlotLossesKeras
+
+import zWell_model
+
+# 获取到数据集
+(x_train, y_train), (x_test, y_test) = cifar10.load_data()
+# 数据标准化以及维度拓展
+x_train = x_train.astype(np.float32).reshape(-1, 32, 32, 3) / 255.
+x_test = x_test.astype(np.float32).reshape(-1, 32, 32, 3) / 255.
+
+# 获取到稠密神经网络
+resNet = zWell_model.dense_net1.DenseNetV1(
+    # 指定稠密块数量为 3 TODO 默认为4
+    model_layers_num=3,
+    # 指定 3 个稠密块后的过渡层中的卷积步长
+    stride=[1, 1, 1],
+    # 指定稠密神经网络的输入维度
+    input_shape=(32, 32, 3),
+    # 指定分类数量
+    classes=10
+)
+
+print(resNet)
+
+# 转换到 keras 的网络模型
+model = resNet.to_keras_model()
+model.summary()
+
+# 开始构建模型
+model.compile(
+    loss='sparse_categorical_crossentropy',
+    optimizer=Adam(learning_rate=0.001),
+    metrics=['acc']
+)
+
+# 开始训练模型
+model.fit(
+    x=x_train, y=y_train,
+    validation_data=(x_test, y_test),
+    batch_size=32, epochs=30,
     callbacks=[PlotLossesKeras()],
     verbose=1
 )

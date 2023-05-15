@@ -8,8 +8,9 @@
 
 class AllModel:
 
-    def to_keras_model(self, **args):
+    def to_keras_model(self, add_fully_connected=True, **args):
         """
+        :param add_fully_connected 布尔数值 如果设置为true 代表要添加全连接神经网络部分，如果为False 代表不添加全连接，只添加最基本的架构，暑促部分由外部实现。
         :param args: 获取到模型需要使用的参数数值。
         :return: keras 中的模型对象
         """

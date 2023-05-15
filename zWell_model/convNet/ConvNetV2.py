@@ -9,7 +9,7 @@ from zWell_model.convNet.convNetWork import ConvNet
 
 class ConvNetV2(ConvNet):
 
-    def to_keras_model(self, **args):
+    def to_keras_model(self, add_fully_connected=True, **args):
         from keras import Sequential
         from keras.applications.densenet import layers
         init_filters = self.init_k_len
@@ -55,9 +55,10 @@ class ConvNetV2(ConvNet):
         model.add(layers.GlobalAveragePooling2D())
 
         # 开始全连接
-        model.add(layers.Dense(self.dense_len))
-        model.add(layers.BatchNormalization())
-        model.add(layers.Dropout(0.5))
+        if add_fully_connected:
+            model.add(layers.Dense(self.dense_len))
+            model.add(layers.BatchNormalization())
+            model.add(layers.Dropout(0.5))
         # 输出类别
         model.add(layers.Dense(self.classes, activation='softmax'))
         return model
