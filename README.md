@@ -224,7 +224,7 @@ resNet = zWell_model.dense_net1.DenseNetV1(
 )
 ```
 
-将获取到的稠密神经网络对象转换成为 keras 库中的深度神经网络对象。
+Convert the obtained dense neural network object into a deep neural network object in the Keras library.
 
 ```python
 # This is an example Python script.
