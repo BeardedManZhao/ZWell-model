@@ -18,12 +18,12 @@ pip install zWell-model
 
 这里展示的是当前 zWell-model 支持的深度学习模型，以及其支持接入的第三方库等更详细的情况。
 
-| Neural Network Name                   | by reference                      | Support access to keras | Supported version |
-|---------------------------------------|-----------------------------------|-------------------------|-------------------|
-| Basic Convolutional First Edition     | zModel.conv_net1.ConvNetV1        | yes                     | v0.0.1.20230514   |
-| Basic Convolutional Second Edition    | zModel.conv_net2.ConvNetV2        | yes                     | v0.0.1.20230514   |
-| Residual Neural Network First Edition | zModel.res_net1.ResNetV1          | yes                     | v0.0.1.20230514   |
-| Dense Neural Network First Edition    | zWell_model.dense_net1.DenseNetV1 | yes                     | v0.0.2.2023xxxx   |
+| Neural Network Name                   | by reference           | Support access to keras | Supported version |
+|---------------------------------------|------------------------|-------------------------|-------------------|
+| Basic Convolutional First Edition     | zWell_model.ConvNetV1  | yes                     | v0.0.1.20230514   |
+| Basic Convolutional Second Edition    | zWell_model.ConvNetV2  | yes                     | v0.0.1.20230514   |
+| Residual Neural Network First Edition | zWell_model.ResNetV1   | yes                     | v0.0.1.20230514   |
+| Dense Neural Network First Edition    | zWell_model.DenseNetV1 | yes                     | v0.0.2.20230528   |
 
 # Usage examples
 
@@ -44,7 +44,7 @@ data with almost identical features.
 import zWell_model
 
 # Obtaining the first type of convolutional neural network
-resNet = zWell_model.conv_net1.ConvNetV1(
+resNet = zWell_model.ConvNetV1(
     # The number of additional convolutional layers to be added above the specified infrastructure is 4. TODO defaults to 1
     model_layers_num=4,
     # Specify the step size in the four convolutional layers
@@ -65,7 +65,7 @@ and model accuracy for a large number of data with diversified features.
 import zWell_model
 
 # Obtaining the second type of convolutional neural network
-resNet = zWell_model.conv_net2.ConvNetV2(
+resNet = zWell_model.ConvNetV2(
     # The number of additional convolutional layers to be added above the specified infrastructure is 1. TODO defaults to 1
     model_layers_num=1,
     # Specify the step size in the one convolutional layers
@@ -98,7 +98,7 @@ x_train = x_train.astype(np.float32).reshape(-1, 32, 32, 3) / 255.
 x_test = x_test.astype(np.float32).reshape(-1, 32, 32, 3) / 255.
 
 # Obtaining the second type of convolutional neural network
-resNet = zWell_model.conv_net2.ConvNetV2(
+resNet = zWell_model.ConvNetV2(
     # The number of additional convolutional layers to be added above the specified infrastructure is 1. TODO defaults to 1
     model_layers_num=1,
     # Specify the step size in the one convolutional layers
@@ -138,7 +138,7 @@ You can obtain the general object of the residual neural network object from ZWe
 import zWell_model
 
 # Obtaining residual neural network
-resNet = zWell_model.res_net1.ResNetV1(
+resNet = zWell_model.ResNetV1(
     # Specify the number of residual blocks as 4 TODO defaults to 4
     model_layers_num=4,
     # Specify the number of output channels in the four residual blocks
@@ -170,7 +170,7 @@ import zWell_model
 x_train, x_test = x_train.astype(np.float32) / 255., x_test.astype(np.float32) / 255.
 
 # Obtaining residual neural network
-resNet = zWell_model.res_net1.ResNetV1(
+resNet = zWell_model.ResNetV1(
     # Specify the number of residual blocks as 4 TODO defaults to 4
     model_layers_num=4,
     # Specify the number of output channels in the four residual blocks
@@ -273,4 +273,41 @@ model.fit(
     callbacks=[PlotLossesKeras()],
     verbose=1
 )
+```
+
+<hr>
+
+## More Actions
+
+### Using abbreviations to obtain neural networks
+
+Starting from version 0.0.2, we can use model aliases to obtain model classes, which are beneficial for simple model
+instantiation and reduce code load. Different model abbreviations and instantiation operations are shown below.
+
+| Original name of the model | Model abbreviation |
+|----------------------------|--------------------|
+| ConvNetV1                  | Cnn1               |
+| ConvNetV2                  | Cnn2               |
+| ResNetV1                   | RCnn1              |
+
+```python
+# This is an example Python script.
+import zWell_model as zModel
+from zWell_model.allModel import AllModel
+
+# Here, the model object of ConvNetV1 was obtained through abbreviation 
+# TODO Cnn1 is an abbreviation
+z_model: AllModel = zModel.Cnn1(
+    # The number of additional convolutional layers to be added above the specified infrastructure is 4. TODO defaults to 1
+    model_layers_num=4,
+    # Specify the step size in the four convolutional layers
+    stride=[1, 2, 1, 2],
+    # Specify the input dimension of convolutional neural networks
+    input_shape=(None, 32, 32, 3),
+    # Specify classification quantity
+    classes=10
+)
+print(z_model)
+print(z_model.to_keras_model())
+
 ```
