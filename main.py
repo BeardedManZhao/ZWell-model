@@ -13,7 +13,7 @@ x_train = x_train.astype(np.float32).reshape(-1, 32, 32, 3) / 255.
 x_test = x_test.astype(np.float32).reshape(-1, 32, 32, 3) / 255.
 
 # 获取到稠密神经网络
-resNet = zWell_model.DenseNetV1(
+resNet = zWell_model.Dn1(
     # 指定稠密块数量为 3 TODO 默认为4
     model_layers_num=3,
     # 指定 2 个稠密块后的过渡层中的卷积步长

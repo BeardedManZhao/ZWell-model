@@ -15,7 +15,7 @@ net_dict1 = {
     'Cnn1': ConvNetV1,
     'Cnn2': ConvNetV2,
     'RCnn1': ResNetV1,
-    'dn1': DenseNetV1
+    'Dn1': DenseNetV1
 }
 
 

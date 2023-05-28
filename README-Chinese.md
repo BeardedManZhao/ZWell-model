@@ -21,7 +21,7 @@ pip install zWell-model
 | 基本卷积第一版   | zWell_model.ConvNetV1  | yes       | v0.0.1.20230514 |
 | 基本卷积第二版   | zWell_model.ConvNetV2  | yes       | v0.0.1.20230514 |
 | 残差神经网络第一版 | zWell_model.ResNetV1   | yes       | v0.0.1.20230514 |
-| 稠密神经网络第一版 | zWell_model.DenseNetV1 | yes       | v0.0.2.2023xxxx |
+| 稠密神经网络第一版 | zWell_model.DenseNetV1 | yes       | v0.0.2.20230528 |
 
 # 使用示例
 
@@ -283,11 +283,12 @@ model.fit(
 
 从 0.0.2 版本开始，我们可以使用模型的别名获取到模型类，其操作有利于简单的模型实例化，减少代码量，不同的模型简称与实例化具体操作如下所示。
 
-| 模型原名      | 模型简称  |
-|-----------|-------|
-| ConvNetV1 | Cnn1  |
-| ConvNetV2 | Cnn2  |
-| ResNetV1  | RCnn1 |
+| 模型原名       | 模型简称  |
+|------------|-------|
+| ConvNetV1  | Cnn1  |
+| ConvNetV2  | Cnn2  |
+| ResNetV1   | RCnn1 |
+| DenseNetV1 | Dn1   |
 
 ```python
 # 这是一个示例 Python 脚本。

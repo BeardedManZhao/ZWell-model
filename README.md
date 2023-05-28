@@ -289,6 +289,7 @@ instantiation and reduce code load. Different model abbreviations and instantiat
 | ConvNetV1                  | Cnn1               |
 | ConvNetV2                  | Cnn2               |
 | ResNetV1                   | RCnn1              |
+| DenseNetV1                 | Dn1                |
 
 ```python
 # This is an example Python script.
