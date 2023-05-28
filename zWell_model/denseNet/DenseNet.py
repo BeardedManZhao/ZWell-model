@@ -1,31 +1,29 @@
 # -*- coding: utf-8 -*-
-# @Time : 2023/5/13 20:21
+# @Time : 2023/5/15 10:56
 # @Author : zhao
 # @Email : liming7887@qq.com
-# @File : resNetWork.py
-# @Project : Keras-model
+# @File : DenseNet.py
+# @Project : ZWell-model
 import copy
 
 import zWell_model.utils as zu
 from zWell_model.allModel import AllModel
 
 
-class ResNet(AllModel):
+class DenseNet(AllModel):
     """
-    残差神经网络最基础的架构对象。
+    稠密神经网络对象，其通过稠密层与过渡层组合，共同实现提升网络深度与降低网络复杂度的目的。
     """
 
-    def __init__(self, k, stride, input_shape, classes,
-                 chan_dim=-1, red=True,
+    def __init__(self, stride, input_shape, classes,
+                 red=True,
                  reg=0.0001, bn_eps=2e-5,
                  bn_mom=0.9, model_layers_num=4,
                  ckp=2, init_k_len=64, dense_len=512
                  ):
         """
         构造出来一个残差神经网络对象
-        :param k: 每一个残差块中的输出通道数量，需要注意的是，这是一个list 作为每一个残差块的输出描述。
         :param stride: 每一个残差块的卷积步长 需要注意的是，这是一个list，作为每一个残差块的卷积步长。
-        :param chan_dim: 每一个残差块在进行批量归一化操作时依赖的轴 需要注意的是，这是一个list，作为每一个残差块的归一化轴编号。
         :param input_shape: 残差神经网络的输入维度元组
         :param classes: 残差神经网络的分类方式
         :param red: 是否使用单通道方式进行处理
@@ -38,9 +36,6 @@ class ResNet(AllModel):
         :param dense_len 残差结束之后，全连接神经元第一层的神经元数量
         """
         super().__init__()
-        # 检查 k 并赋值k
-        zu.check_list_len(k, model_layers_num, "Number of output channels in each residual block:[k]")
-        self.k = k
 
         # 检查步长 并 赋值步长
         zu.check_list_len(stride, model_layers_num, "Convolutional step size for each residual block:[stride]")
@@ -48,7 +43,6 @@ class ResNet(AllModel):
 
         self.input_shape = input_shape
         self.classes = classes
-        self.chan_dim = chan_dim
         self.red = red
         self.reg = reg
         self.bn_eps = bn_eps
@@ -59,19 +53,10 @@ class ResNet(AllModel):
         self.dense_len = dense_len
 
     def __rshift__(self, other):
-        """
-        使用拷贝的方式将当亲残差网络模型中的所有属性拷贝到另一个残差网络模型对象中，常用于不同配置的网络之间的属性覆写操作。
-        能够在不重新创建新神经网络对象的前提下复制神经网络对象
-        :param other: 拷贝之后的新神经网络模型。
-        :return: 拷贝之后的新神经网络模型。
-        """
-        other.k = copy.copy(self.k)
         other.stride = copy.copy(self.stride)
         other.input_shape = self.input_shape
         other.classes = self.classes
-        other.chan_dim = self.chan_dim
-        other.red = self.red
-        other.reg = self.reg
+        other.red = self.red, other.reg = self.reg
         other.bn_eps = self.bn_eps
         other.bn_mom = self.bn_mom
         other.model_layers_num = other.model_layers_num
@@ -80,12 +65,10 @@ class ResNet(AllModel):
         other.dense_len = self.dense_len
 
     def __str__(self) -> str:
-        return "zWell_model.resNet.resNetWork.ResNet(\n" \
-               f"\tk={self.k}\n" \
+        return "zWell_model.denseNet.DenseNet.DenseNet(\n" \
                f"\tstride={self.stride}\n" \
                f"\tinput_shape={self.input_shape}\n" \
                f"\tclasses={self.classes}\n" \
-               f"\tchan_dim={self.chan_dim}\n" \
                f"\tred={self.red}\n" \
                f"\treg={self.reg}\n" \
                f"\tbn_eps={self.bn_eps}\n" \

@@ -9,7 +9,7 @@ from zWell_model.resNet.resNetWork import ResNet
 
 
 class ResNetV1(ResNet):
-    def to_keras_model(self, **args):
+    def to_keras_model(self, add_fully_connected=True, **args):
         from keras import Input, Model
         from keras.layers import AveragePooling2D, Flatten, Dropout, Dense
         """定义残差网络"""
@@ -31,13 +31,16 @@ class ResNetV1(ResNet):
                     x, k=k_size, stride=self.stride[index], chan_dim=self.chan_dim, red=self.red
                 )
         # 均值池化
-        x = AveragePooling2D()(x)
-        # 扁平化
-        x = Flatten()(x)
-        # 失活
-        x = Dropout(0.5)(x)
-        # 全连接
-        x = Dense(self.dense_len, activation='relu')(x)
-        outputs = Dense(self.classes, activation='softmax')(x)
-        model = Model(name=args.get('name', 'ResNetV1'), inputs=inputs, outputs=outputs)
+        if add_fully_connected:
+            output = AveragePooling2D()(x)
+            # 扁平化
+            x = Flatten()(output)
+            # 失活
+            x = Dropout(0.5)(x)
+            # 全连接
+            x = Dense(self.dense_len, activation='relu')(x)
+            outputs = Dense(self.classes, activation='softmax')(x)
+            model = Model(name=args.get('name', 'ResNetV1'), inputs=inputs, outputs=outputs)
+        else:
+            model = Model(name=args.get('name', 'ResNetV1'), inputs=inputs, outputs=x)
         return model
