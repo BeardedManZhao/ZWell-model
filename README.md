@@ -1,5 +1,7 @@
 # ![image](https://github.com/BeardedManZhao/ZWell-model/assets/113756063/87aedd4f-092f-4ff7-9e4a-3749cffedf0d) ZWell-model
 
+* 切换至[中文文档](https://github.com/BeardedManZhao/ZWell-model/blob/zhao/README-Chinese.md)
+
 # introduce
 
 A deep learning model library that supports various deep network models and transformations to libraries such as Keras.
@@ -8,7 +10,7 @@ learning time.
 
 ## Acquisition method
 
-通过 pip 工具进行库的安装，也可以通过GitHub中的源码手动装载。
+Install the library through the pip tool, or manually load it through the source code in GitHub.
 
 ```shell
 pip install zWell-model
@@ -16,7 +18,7 @@ pip install zWell-model
 
 ## Current developments
 
-这里展示的是当前 zWell-model 支持的深度学习模型，以及其支持接入的第三方库等更详细的情况。
+Here are more detailed information on the current deep learning models supported by zWell model, as well as the third-party libraries it supports access to.
 
 | Neural Network Name                   | by reference           | Support access to keras | Supported version |
 |---------------------------------------|------------------------|-------------------------|-------------------|
@@ -204,7 +206,7 @@ model.fit(
 )
 ```
 
-## 稠密神经网络
+## Dense neural network
 
 You can obtain dense neural network models from the ZWell mode library in the following way.
 
