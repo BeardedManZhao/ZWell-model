@@ -17,13 +17,13 @@ class ConvNet(AllModel):
                  model_layers_num=1, ckp=2, init_k_len=64, dense_len=512):
         """
         构造出来一个卷积神经网络对象
-        :param stride: 每一个残差块的卷积步长 需要注意的是，这是一个list，作为每一个残差块的卷积步长。
-        :param input_shape: 残差神经网络的输入维度元组
-        :param classes: 残差神经网络的分类方式
-        :param model_layers_num: 残差神经网络层数量
+        :param stride: 每一个卷积块的卷积步长 需要注意的是，这是一个list，作为每一个残差块的卷积步长。
+        :param input_shape: 卷积神经网络的输入维度元组
+        :param classes: 卷积神经网络的分类方式
+        :param model_layers_num: 卷积神经网络层数量
         :param ckp: 卷积层之间的卷积核数量等比数值
-        :param init_k_len 第一层残差块中的卷积核数量
-        :param dense_len 残差结束之后，全连接神经元第一层的神经元数量
+        :param init_k_len 第一层卷积块中的卷积核数量
+        :param dense_len 卷积结束之后，全连接神经元第一层的神经元数量
         """
         super().__init__()
         # 检查步长 并 赋值步长
