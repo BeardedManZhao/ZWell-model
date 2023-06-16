@@ -18,14 +18,16 @@ pip install zWell-model
 
 ## Current developments
 
-Here are more detailed information on the current deep learning models supported by zWell model, as well as the third-party libraries it supports access to.
+Here are more detailed information on the current deep learning models supported by zWell model, as well as the
+third-party libraries it supports access to.
 
-| Neural Network Name                   | by reference           | Support access to keras | Supported version |
-|---------------------------------------|------------------------|-------------------------|-------------------|
-| Basic Convolutional First Edition     | zWell_model.ConvNetV1  | yes                     | v0.0.1.20230514   |
-| Basic Convolutional Second Edition    | zWell_model.ConvNetV2  | yes                     | v0.0.1.20230514   |
-| Residual Neural Network First Edition | zWell_model.ResNetV1   | yes                     | v0.0.1.20230514   |
-| Dense Neural Network First Edition    | zWell_model.DenseNetV1 | yes                     | v0.0.2.20230528   |
+| Neural Network Name                    | by reference           | Support access to keras | Supported version |
+|----------------------------------------|------------------------|-------------------------|-------------------|
+| Basic Convolutional First Edition      | zWell_model.ConvNetV1  | yes                     | v0.0.1.20230514   |
+| Basic Convolutional Second Edition     | zWell_model.ConvNetV2  | yes                     | v0.0.1.20230514   |
+| Residual Neural Network First Edition  | zWell_model.ResNetV1   | yes                     | v0.0.1.20230514   |
+| Residual Neural Network Second Edition | zWell_model.ResNetV2   | yes                     | v0.0.3.xxxxxxxx   |
+| Dense Neural Network First Edition     | zWell_model.DenseNetV1 | yes                     | v0.0.2.20230528   |
 
 # Usage examples
 
@@ -134,6 +136,8 @@ model.fit(
 
 ## Residual neural network
 
+### first Edition
+
 You can obtain the general object of the residual neural network object from ZWell model in the following way.
 
 ```python
@@ -203,6 +207,29 @@ model.fit(
     batch_size=32, epochs=30,
     callbacks=[PlotLossesKeras()],
     verbose=1
+)
+```
+
+### Second Edition
+
+The residual Convolutional neural network model in the second edition reduces the number of neural network layers and
+the computational complexity in the neural network model compared with the residual neural network in the first edition.
+Compared with the first edition, the calculation speed is faster and the fitting ability is better, but it is easy to
+over fit. Next is the use example of the relevant neural network model.
+
+```python
+import zWell_model
+
+# 获取到第 二 版本的残差神经网络
+resNet = zWell_model.ResNetV2(
+    # 指定残差块数量为 4 TODO 默认为4
+    model_layers_num=4,
+    # 指定四个残差块中的步长
+    stride=[1, 2, 1, 2],
+    # 指定残差神经网络的输入维度
+    input_shape=(32, 32, 3),
+    # 指定分类数量
+    classes=10
 )
 ```
 

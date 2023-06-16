@@ -9,12 +9,14 @@ from zWell_model.convNet.ConvNetV1 import ConvNetV1
 from zWell_model.convNet.ConvNetV2 import ConvNetV2
 from zWell_model.denseNet.DenseNetV1 import DenseNetV1
 from zWell_model.resNet.ResNetV1 import ResNetV1
+from zWell_model.resNet.ResNetV2 import ResNetV2
 
 net_dict1 = {
     'version': '0.0.2.20230528',
     'Cnn1': ConvNetV1,
     'Cnn2': ConvNetV2,
     'RCnn1': ResNetV1,
+    'RCnn2': ResNetV2,
     'Dn1': DenseNetV1
 }
 

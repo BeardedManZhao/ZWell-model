@@ -15,19 +15,19 @@ class ResNetV1(ResNet):
         """定义残差网络"""
         inputs = Input(shape=self.input_shape)
         # 开始进行残差块之前进行一层卷积 然后开始进行残差块计算
-        x = ru.res_module(inputs, k=self.init_k_len, stride=self.stride[0], chan_dim=self.chan_dim, red=self.red)
+        x = ru.res_block_v1(inputs, k=self.init_k_len, stride=self.stride[0], chan_dim=self.chan_dim, red=self.red)
         # 准备进入其它残差块
         k_size = self.init_k_len
         if self.ckp == 2:
             k_size <<= 1
             for index in range(1, self.model_layers_num):
-                x = ru.res_module(
+                x = ru.res_block_v1(
                     x, k=k_size, stride=self.stride[index], chan_dim=self.chan_dim, red=self.red
                 )
         else:
             k_size *= self.ckp
             for index in range(1, self.model_layers_num):
-                x = ru.res_module(
+                x = ru.res_block_v1(
                     x, k=k_size, stride=self.stride[index], chan_dim=self.chan_dim, red=self.red
                 )
         # 均值池化

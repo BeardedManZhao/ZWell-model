@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-def res_module(
+def res_block_v1(
         data, k, stride, chan_dim,
         red=False, reg=0.0001, bn_eps=2e-5, bn_mom=0.9
 ):
@@ -52,3 +52,21 @@ def res_module(
         shortcut = AveragePooling2D(pool_size=stride)(shortcut)
     # 计算出残差 并将残差返回出去 残差 = 恒等映射 + 卷积输出
     return Activation('relu')(add([shortcut, conv3]))
+
+
+def res_block_v2(
+        filter_num, k_size=(3, 3), stride=1, name='res_block'
+):
+    """
+    :param filter_num: 当前残差块中的滤波器的个数。
+    :param k_size: 当前残差块中的卷积层中的卷积核尺寸。
+    :param stride: 当前残差块中的卷积步长。
+    :param name: 当前残差块的名称
+    """
+    from zWell_model.resNet.tf.Block import BlockV2
+    return BlockV2(
+        filter_num=filter_num,
+        k_size=k_size,
+        stride=stride,
+        name=name
+    )

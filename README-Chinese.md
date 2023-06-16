@@ -18,12 +18,13 @@ pip install zWell-model
 
 这里展示的是当前 zWell-model 支持的深度学习模型，以及其支持接入的第三方库等更详细的情况。
 
-| 神经网络名称    | 引用方式                   | 支持接入keras | 支持版本            |
-|-----------|------------------------|-----------|-----------------|
-| 基本卷积第一版   | zWell_model.ConvNetV1  | yes       | v0.0.1.20230514 |
-| 基本卷积第二版   | zWell_model.ConvNetV2  | yes       | v0.0.1.20230514 |
-| 残差神经网络第一版 | zWell_model.ResNetV1   | yes       | v0.0.1.20230514 |
-| 稠密神经网络第一版 | zWell_model.DenseNetV1 | yes       | v0.0.2.20230528 |
+| 神经网络名称       | 引用方式                   | 支持接入keras | 支持版本            |
+|--------------|------------------------|-----------|-----------------|
+| 基本卷积第 一 版本   | zWell_model.ConvNetV1  | yes       | v0.0.1.20230514 |
+| 基本卷积第 二 版本   | zWell_model.ConvNetV2  | yes       | v0.0.1.20230514 |
+| 残差神经网络第 一 版本 | zWell_model.ResNetV1   | yes       | v0.0.1.20230514 |
+| 残差神经网络第 二 版本 | zWell_model.ResNetV2   | yes       | v0.0.3.xxxxxxxx |
+| 稠密神经网络第 一 版本 | zWell_model.DenseNetV1 | yes       | v0.0.2.20230528 |
 
 # 使用示例
 
@@ -33,7 +34,7 @@ pip install zWell-model
 
 基本卷积神经网络包含最基本的网络结构，其学习速度与精确度折中，共有两个版本。
 
-### 第一版
+### 第 一 版本
 
 以学习速度为主要核心的卷积神经网络，针对大量特征几乎相同的数据，该网络的学习能够提升学习速度。
 
@@ -53,7 +54,7 @@ resNet = zWell_model.ConvNetV1(
 )
 ```
 
-### 第二版
+### 第 二 版本
 
 以学习速度与防止过拟合为核心的卷积神经网络，针对大量特征多样化的数据，该网络的学习能够提升学习速度与模型精度。
 
@@ -129,6 +130,8 @@ model.fit(
 
 ## 残差神经网络
 
+### 第 一 版本
+
 您可以通过下面的方式，从ZWell-model中获取到残差神经网络对象的通用对象。
 
 ```python
@@ -202,6 +205,27 @@ model.fit(
     # 使用回调函数实时打印模型情况
     callbacks=[PlotLossesKeras()],
     verbose=1
+)
+```
+
+### 第 二 版本
+
+第 二 版本本的残差卷积神经网络模型，其相较于第 一 版本本的残差神经网络，减小了神经网络的层数，以及神经网络模型中的计算复杂度，其相较于第
+一 版本的计算速度更快，拟合能力更好，但是容易过拟合，接下来就是相关的神经网络模型的使用示例。
+
+```python
+import zWell_model
+
+# 获取到第 二 版本的残差神经网络
+resNet = zWell_model.ResNetV2(
+    # 指定残差块数量为 4 TODO 默认为4
+    model_layers_num=4,
+    # 指定四个残差块中的步长
+    stride=[1, 2, 1, 2],
+    # 指定残差神经网络的输入维度
+    input_shape=(32, 32, 3),
+    # 指定分类数量
+    classes=10
 )
 ```
 
@@ -290,6 +314,7 @@ model.fit(
 | ConvNetV1  | Cnn1  |
 | ConvNetV2  | Cnn2  |
 | ResNetV1   | RCnn1 |
+| ResNetV2   | RCnn2 |
 | DenseNetV1 | Dn1   |
 
 ```python
